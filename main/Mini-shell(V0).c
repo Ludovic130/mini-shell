@@ -7,60 +7,60 @@
 
 int main(void)
 {
-    // probleme rencontrer:
-    /*  argv est une variable de type tableau de pointeur de char, pour l'utiliser avec la saisie au clavier on doit definir
-        Sa taille puis affecter la commande saisie au clavier et dois toujour se terminer par un pointeur NULL
-        exemple: argv[0] = commande;  // ou argv[0] = &commande[0];  // ou argv[0] = (char *)commande;
+    // issue encountered:
+    /*  argv is a variable of type array of pointers to char. To use it with keyboard input, we must define
+        its size, then assign the command entered at the keyboard, and it must always end with a NULL pointer.
+        example: argv[0] = command;  // or argv[0] = &command[0];  // or argv[0] = (char *)command;
                  argv[1] = NULL;
 
-        NB: Bad address error: se produit lorsque l'adresse de la commande saisie n'est pas correctement référencée dans le tableau argv, 
-            ce qui peut entraîner une tentative d'accès à une adresse mémoire invalide lors de l'exécution de la commande avec execvp().
+        NB: Bad address error: occurs when the address of the entered command is not correctly referenced in the argv array,
+            which can lead to an attempt to access an invalid memory address when executing the command with execvp().
     */
     
-    // Saisie une chaine
-    // lire la ligne
-    // executer la commande
+    // Read a string
+    // read the line
+    // execute the command
 
-    char commande[10];
+    char command[10];
 
-    int pos = 0; // position de chaque chaine de caracère dans le tableau argv
+    int pos = 0; // position of each character string in the argv array
 
     printf("root@mini-shell:~$ ");
  
-    fgets(commande, sizeof(commande), stdin); // saisie une commande au clavier par l'utilisateur
+    fgets(command, sizeof(command), stdin); // read a command entered by the user
 
     char *argv[10];
-    char *token = strtok(commande, " \t\n");
+    char *token = strtok(command, " \t\n");
 
 
     while (token != NULL) {
 
         argv[pos] = token;
         pos++;
-        token = strtok(NULL, " \t\n"); // on ignore les tabulations et saut de ligne avec \0 (fin de la chaine)
+        token = strtok(NULL, " \t\n"); // ignore tabs and newlines, replaced by \0 (end of string)
     }
-    argv[pos] = NULL; // on termine le tableau argv par un pointeur NULL pour indiquer la fin du tableau
+    argv[pos] = NULL; // terminate the argv array with a NULL pointer to indicate the end of the array
 
     __pid_t pid;
 
     do {
-        pid = fork(); // fork() peut échouer temporairement en raison de ressources insuffisantes, il est donc recommandé de réessayer dans ce cas
-    } while ((pid == -1) && (errno == EAGAIN)); // EAGAIN: Ressources temporaires insuffisantes pour créer un processus enfant, réessayer   
+        pid = fork(); // fork() may fail temporarily due to insufficient resources, so it is advisable to retry in that case
+    } while ((pid == -1) && (errno == EAGAIN)); // EAGAIN: Temporary resource shortage to create a child process, retry   
 
-    if (pid == -1) // échec de fork() après plusieurs tentatives
+    if (pid == -1) // fork() failed after several attempts
     {
-        fprintf(stderr, "¨Proccess forking error¨");
+        fprintf(stderr, "Process forking error\n");
         exit(1);
     }
 
     if (pid == 0)
     {
-        if(execvp(argv[0], argv)==-1) { // execvp() retourne -1 en cas d'erreur, et errno est défini pour indiquer l'erreur spécifique
+        if(execvp(argv[0], argv) == -1) { // execvp() returns -1 on error, and errno is set to indicate the specific error
             perror("Error executing command"); 
             exit(1);
         }
     } else {
-        wait(NULL); // attendre que le processus enfant se termine avant de continuer
+        wait(NULL); // wait for the child process to finish before continuing
     }
     
     return 0;
