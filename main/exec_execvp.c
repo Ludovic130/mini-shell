@@ -1,12 +1,10 @@
 #include "lib.h"
-#include "f.h"
+#include "func.h"
 
 // Function to execute the command
-char e_execvp(char **argv) 
+char e_execvp(char **argv, int c) 
 {
-    __pid_t pid;
-
-    // int status;
+    __pid_t pid; // Create variable to store the child pid
 
     do {
         pid = fork(); // fork() may fail temporarily due to insufficient resources, so it is advisable to retry in that case
@@ -20,20 +18,20 @@ char e_execvp(char **argv)
 
     if (pid == 0)
     {
-        // if ((argv == NULL || argv[0] == NULL))
-        // {
-        //     exit(0);
-        // }
-        if (execvp(argv[0], argv) == -1) 
-        {
+        signal(SIGINT, SIG_DFL);
+        exec_red(argv, c);
+        if(execvp(argv[0], argv) == -1) { // execvp() returns -1 on error, and errno is set to indicate the specific error
             perror("Error executing command"); 
             exit(1);
         }
-        exit(0);
-
     } else {
-        waitpid(pid, NULL /*&status*/, 0); // wait for the child process to finish before continuing
+        if(waitpid(pid, NULL, 0) == -1) // wait for the child process to finish before continuing
+        {
+            perror("waitpid");
+            exit(1);
+        }
     }
+
 
     // if(WIFEXITED(status)) 
     // {

@@ -1,17 +1,31 @@
 #include "lib.h"
-#include "f.h"
+#include "func.h"
 
 // shell
-void shell(char **argv)
+void shell()
 {
+    char *argv[20];
     int bool = 1;
     int pos = 0; // position of each character string in the argv array
     char history[10][10];
     char *line; // this pointer points to a single memory cell
+    char prompt[300];
+    char rep[1024];
+
+    if(signal(SIGINT, SIG_IGN) == SIG_ERR)  // Ignore SIGINT signal when pressing Ctrl+C 
+    {
+        fprintf(stderr, "signal non capturé");
+    }
 
     while (bool)
     {
-        line = readline("root@mini-shell:~$ "); // displays the prompt and properly retrieves the line
+       if (getcwd(rep, 1024) != NULL)
+        {
+            int s = snprintf(prompt, sizeof(prompt), "Ludovic:\n~%s> ", rep); // format multiple strings
+            if (s) {
+                line = readline(prompt); // read the command entered by the user
+            }
+        } 
 
         if(!line){ // If the line is empty, we stop
             break; // with break
@@ -19,8 +33,8 @@ void shell(char **argv)
         if (*line) {
             add_history(line); // enables the up/down arrow keys
         }
-        cutchar(line, argv);
-        cmd(argv, history, line, &pos);
+        int c = small_lex(line, argv);
+        exec_cmd(argv, history, line, &pos, rep, c);
         
         free(line);
     }

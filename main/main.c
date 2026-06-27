@@ -1,5 +1,5 @@
 #include "lib.h"
-#include "f.h"
+#include "func.h"
 
 
 int main(void)
@@ -17,8 +17,7 @@ int main(void)
     // read the line
     // execute the command
 
-    char *argv[10];
-    shell(argv); // shell
+    shell(); // shell
 
     return 0;
 }

@@ -10,7 +10,7 @@ CFLAGS = -Wall -Wextra
 LDFLAGS =
 
 TARGET = mini-shell_v1.1
-SRCS = main.c shell.c lex.c cmd.c m_history.c m_execvp.c
+SRCS = main.c shell.c exec_lex.c exec_cmd.c exec_history.c exec_execvp.c exec_chdir.c exec_pchild.c exec_pipe.c exec_red.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(TARGET) # If the user types make all (or just make, since all is the first target),

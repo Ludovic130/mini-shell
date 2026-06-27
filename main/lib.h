@@ -10,5 +10,6 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <fcntl.h>
 
 #endif // LIB

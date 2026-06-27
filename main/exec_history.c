@@ -1,5 +1,5 @@
 #include "lib.h"
-#include "f.h"
+#include "func.h"
 
 // Function to display the history
 char print_history(char history[10][10], int *pos)

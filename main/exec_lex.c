@@ -1,8 +1,8 @@
 #include "lib.h"
-#include "f.h"
+#include "func.h"
 
 // fonction pour trier la chaine de caractère pour enlever les espaces et autres caractères
-char cutchar(char *command, char **argv)
+char small_lex(char *command, char **argv)
 {
     int i = 0;
     char *token = strtok(command, " \t\n\r");
@@ -14,5 +14,5 @@ char cutchar(char *command, char **argv)
     }
     argv[i] = (char *) NULL; // terminate the argv array with a NULL pointer to indicate the end of the array
 
-    return 0;
+    return i;
 }
