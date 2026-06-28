@@ -7,7 +7,7 @@ void shell()
     char *argv[20];
     int bool = 1;
     int pos = 0; // position of each character string in the argv array
-    char history[10][10];
+    char history[500][10];
     char *line; // this pointer points to a single memory cell
     char prompt[300];
     char rep[1024];
