@@ -12,10 +12,7 @@ void shell()
     char prompt[300];
     char rep[1024];
 
-    if(signal(SIGINT, SIG_IGN) == SIG_ERR)  // Ignore SIGINT signal when pressing Ctrl+C 
-    {
-        fprintf(stderr, "signal non capturé");
-    }
+    exec_isig();
 
     while (bool)
     {

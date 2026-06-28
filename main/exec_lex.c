@@ -1,7 +1,7 @@
 #include "lib.h"
 #include "func.h"
 
-// fonction pour trier la chaine de caractère pour enlever les espaces et autres caractères
+// function to parse the string by removing spaces and other whitespace characters
 char small_lex(char *command, char **argv)
 {
     int i = 0;

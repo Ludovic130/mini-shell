@@ -2,7 +2,7 @@
 #include "func.h"
 
 // Function to execute the command
-char e_execvp(char **argv, int c) 
+void e_execvp(char **argv, int c) 
 {
     __pid_t pid; // Create variable to store the child pid
 
@@ -32,7 +32,6 @@ char e_execvp(char **argv, int c)
         }
     }
 
-
     // if(WIFEXITED(status)) 
     // {
     //     fprintf(stdout,"Process %ld terminated with return code %d\n", (long)pid, WEXITSTATUS(status));
@@ -42,5 +41,4 @@ char e_execvp(char **argv, int c)
     //     fprintf(stdout,"Process %ld stopped temporarily with code %d\n", (long)pid, WSTOPSIG(status));
     // }
 
-    return 0;
 }

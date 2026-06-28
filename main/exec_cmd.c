@@ -16,7 +16,7 @@ char exec_cmd(char **argv, char history[10][10], char *command, int *pos, char *
     else if ((argv[0] != NULL) && (strcmp(argv[0], "exit") == 0))
     {
         exit(0);
-        perror("problèms");
+        perror("exit"); // Translated from "problèms" (Note: this line is never reached because exit(0) is called just before)
     }
     else if ((argv[0] != NULL) && (strcmp(argv[0], "history") == 0))
     {

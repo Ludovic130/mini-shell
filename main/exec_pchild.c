@@ -91,6 +91,7 @@ void exec_pfils(int nb_cmd,int c, char **argv)
             perror("wait");
             exit(1);
         }
-        exit(0);
     }
+    exit(0);
+
 }
